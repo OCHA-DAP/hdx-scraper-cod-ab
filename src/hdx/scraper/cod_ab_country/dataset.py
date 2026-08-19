@@ -165,12 +165,14 @@ def add_boundary_resource(  # noqa: PLR0913
     if admin_level > 0:
         resource_data["p_coded"] = "True"
     resource = Resource(resource_data)
-    file_to_upload = iso3_dir / resource_name
+    local_path = iso3_dir / resource_name
+    file_to_upload = local_path
     if ext in ("gdb.zip", "shp.zip") and not force_upload:
-        file_to_upload = compare_geodata(
-            iso3_dir / resource_name,
-            dataset.get_name_or_id(),
-        )
+        file_to_upload = compare_geodata(local_path, dataset.get_name_or_id())
+        if file_to_upload == local_path:
+            logger.info("%s (%s) differs from HDX", iso3, format_type)
+        else:
+            logger.info("%s (%s) unchanged on HDX", iso3, format_type)
     resource.set_file_to_upload(file_to_upload)
     resource.set_format(format_type)
     dataset.add_update_resource(resource)
