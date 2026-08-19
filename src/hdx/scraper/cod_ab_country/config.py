@@ -47,12 +47,7 @@ WAIT = int(getenv("WAIT", "10"))
 TIMEOUT = int(getenv("TIMEOUT", "60"))
 EXPIRATION = int(getenv("EXPIRATION", "1440"))  # minutes (1 day)
 
-ISO3_EXCLUDE_DEFAULTS = "COL,ECU,QAT"
-
-admin_level_full_overrides = {
-    "IDN": 4,
-    "PHL": 4,
-}
+ISO3_EXCLUDE_DEFAULTS = "COL,ECU"
 
 TEMP_DIR = getenv("TEMP_DIR", ".")
 
