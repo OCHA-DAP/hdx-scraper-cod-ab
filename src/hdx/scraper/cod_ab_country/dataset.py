@@ -53,12 +53,17 @@ def _add_metadata(iso3: str, metadata: dict, dataset: Dataset) -> Dataset | None
     methodology_dataset = metadata["methodology_dataset"]
     methodology_pcodes = metadata["methodology_pcodes"]
     methodology = [
-        f"Dataset: {methodology_dataset}" if methodology_dataset else None,
-        f"P-codes: {methodology_pcodes}" if methodology_pcodes else None,
+        f"Dataset: {methodology_dataset}"
+        if methodology_dataset and not isna(methodology_dataset)
+        else None,
+        f"P-codes: {methodology_pcodes}"
+        if methodology_pcodes and not isna(methodology_pcodes)
+        else None,
     ]
     methodology = [x for x in methodology if x]
     dataset["methodology_other"] = "  \n  \n".join(methodology)
-    dataset["caveats"] = metadata["caveats"] or None
+    caveats = metadata["caveats"]
+    dataset["caveats"] = caveats if caveats and not isna(caveats) else None
     dataset.add_tags(["administrative boundaries-divisions", "gazetteer", "geodata"])
     return dataset
 
